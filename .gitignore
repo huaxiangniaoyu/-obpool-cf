@@ -12,3 +12,4 @@ obpool-arm64
 obpool-amd64
 obpool-bin
 *.ipk
+*.apk

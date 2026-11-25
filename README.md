@@ -35,7 +35,25 @@
 
 ## 部署 (OpenWrt / ImmortalWrt, aarch64)
 
- 手工放文件
+### 方式一: apk 安装包 (推荐)
+
+你这台固件 (ImmortalWrt/OpenWrt 25.x) 的包管理器已经是 **apk** 不是 opkg。
+Releases 里的 `obpool-1.0.0-r0.apk`, 传到路由器后:
+
+```sh
+apk add --allow-untrusted obpool-1.0.0-r0.apk
+```
+
+安装会自动: 把程序放进 `/opt/open-box/pool/`、从示例生成 `subs.txt`
+(升级不覆盖)、注册每晚 20:40 的定时任务。装完把你的订阅填进
+`/opt/open-box/pool/subs.txt`, 再手工跑一次 `/opt/open-box/pool/run.sh` 即可。
+卸载 `apk del obpool` 会自动摘掉定时任务。
+
+包的架构标记是 `aarch64_cortex-a53` (mediatek/filogic); 其他 ARM64 目标
+改一下构建脚本的 ARCH 变量重打即可。自己打包: `./build-apk.sh`
+(需要 Go + apk-tools 的 apk.static)。
+
+### 方式二: 手工放文件
 
 ```sh
 # 1. 把二进制和订阅文件放到路由器
@@ -95,7 +113,7 @@ echo '40 20 * * * /opt/open-box/pool/run.sh' >> /etc/crontabs/root
 
 - 测试实例用 127.0.0.1:19095 (API) 和 127.0.0.1:17895 (mixed 入口),
   与 Open-Box 主实例 (9095) 不冲突
-- 订阅里的节点凭据只存在你自己的 `subs.txt` 和输出文件里, 
+- 订阅里的节点凭据只存在你自己的 `subs.txt` 和输出文件里, 不要把它们提交到仓库
 - 本工具只做测速与筛选, 不修改 Open-Box 的任何配置
 
 ## License
