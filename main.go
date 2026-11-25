@@ -667,7 +667,29 @@ func run(opt *Options) error {
 	for _, nm := range names {
 		fullB.WriteString("      - " + yamlQuote(nm) + "\n")
 	}
-	fullB.WriteString("rules:\n  - MATCH,优选池\n")
+	// 服务分组: 默认走优选池, 也可在面板里手动切直连
+	for _, g := range []string{"AI服务", "流媒体", "电报"} {
+		fullB.WriteString("  - name: \"" + g + "\"\n    type: select\n    proxies:\n      - \"优选池\"\n      - \"DIRECT\"\n")
+	}
+	// 分流规则: 局域网直连 → 广告拦截 → 服务分组 → 国内直连 → 其余走优选池
+	fullB.WriteString(`rules:
+  - GEOSITE,private,DIRECT
+  - GEOIP,private,DIRECT,no-resolve
+  - GEOSITE,category-ads-all,REJECT
+  - GEOSITE,openai,AI服务
+  - GEOSITE,chatgpt,AI服务
+  - GEOSITE,claude,AI服务
+  - GEOSITE,google-deepmind,AI服务
+  - GEOSITE,youtube,流媒体
+  - GEOSITE,netflix,流媒体
+  - GEOSITE,disney,流媒体
+  - GEOSITE,spotify,流媒体
+  - GEOSITE,telegram,电报
+  - GEOIP,telegram,电报,no-resolve
+  - GEOSITE,cn,DIRECT
+  - GEOIP,CN,DIRECT,no-resolve
+  - MATCH,优选池
+`)
 	_ = os.WriteFile(filepath.Join(opt.WorkDir, "pool.yaml"), []byte(fullB.String()), 0o644)
 	_ = os.WriteFile(filepath.Join(opt.WorkDir, "pool.txt"), []byte(linksB.String()), 0o644)
 	if b, err := json.MarshalIndent(map[string]any{"outbounds": rawOuts}, "", "  "); err == nil {
