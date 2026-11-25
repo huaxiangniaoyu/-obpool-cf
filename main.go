@@ -670,7 +670,7 @@ func run(opt *Options) error {
 	fullB.WriteString("proxy-groups:\n")
 	// 全局策略 (照 Open-Box: 总开关在自动/手动/直连之间切)
 	fullB.WriteString("  - name: \"优选池\"\n    type: select\n    proxies:\n      - \"优选池-自动\"\n      - \"优选池-手动\"\n      - \"DIRECT\"\n")
-	fullB.WriteString("  - name: \"优选池-自动\"\n    type: url-test\n    url: https://www.gstatic.com/generate_204\n    interval: 300\n    tolerance: 50\n    proxies:\n")
+	fullB.WriteString("  - name: \"优选池-自动\"\n    type: url-test\n    url: https://www.gstatic.com/generate_204\n    interval: 120\n    tolerance: 50\n    proxies:\n")
 	for _, nm := range names {
 		fullB.WriteString("      - " + yamlQuote(nm) + "\n")
 	}

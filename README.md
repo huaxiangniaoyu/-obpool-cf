@@ -38,10 +38,10 @@
 ### 方式一: apk 安装包 (推荐)
 
 你这台固件 (ImmortalWrt/OpenWrt 25.x) 的包管理器已经是 **apk** 不是 opkg。
-Releases 里的 `obpool-1.0.6-r0.apk`, 传到路由器后:
+Releases 里的 `obpool-1.0.7-r0.apk`, 传到路由器后:
 
 ```sh
-apk add --allow-untrusted obpool-1.0.6-r0.apk
+apk add --allow-untrusted obpool-1.0.7-r0.apk
 ```
 
 安装会自动: 把程序放进 `/opt/open-box/pool/`、从示例生成 `subs.txt`
