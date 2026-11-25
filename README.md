@@ -110,7 +110,7 @@ echo '40 20 * * * /opt/open-box/pool/run.sh' >> /etc/crontabs/root
 
 - 测试实例用 127.0.0.1:19095 (API) 和 127.0.0.1:17895 (mixed 入口),
   与 Open-Box 主实例 (9095) 不冲突
-- 订阅里的节点凭据只存在你自己的 `subs.txt` 和输出文件里, 不要把它们提交到仓库
+- 订阅里的节点凭据只存在你自己的 `subs.txt` 和输出文件里, 
 - 本工具只做测速与筛选, 不修改 Open-Box 的任何配置
 
 ## License
