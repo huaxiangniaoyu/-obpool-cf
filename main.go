@@ -20,6 +20,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"sort"
+	"strconv"
 	"strings"
 	"sync"
 	"time"
@@ -108,8 +109,16 @@ func str(v any) string {
 }
 
 func num(v any) int {
-	if f, ok := v.(float64); ok {
-		return int(f)
+	switch x := v.(type) {
+	case float64:
+		return int(x)
+	case int:
+		return x
+	case int64:
+		return int(x)
+	case string:
+		n, _ := strconv.Atoi(x)
+		return n
 	}
 	return 0
 }
@@ -656,7 +665,7 @@ func run(opt *Options) error {
 	var fullB strings.Builder
 	fullB.WriteString("# 优选节点池 — obpool 每晚自动更新 (加权: 带宽+延迟+稳定性)\n")
 	fullB.WriteString(fmt.Sprintf("# 更新时间: %s\n", time.Now().Format("2006-01-02 15:04:05")))
-	fullB.WriteString("mixed-port: 7890\nallow-lan: false\nmode: rule\nlog-level: warning\n")
+	fullB.WriteString("mixed-port: 7890\nallow-lan: false\nmode: rule\nlog-level: warning\ngeodata-mode: true\ngeodata-loader: standard\ngeo-auto-update: false\ngeox-url:\n  geoip: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.dat\n  geosite: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geosite.dat\n  mmdb: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/country.mmdb\n")
 	fullB.WriteString(proxiesB.String())
 	fullB.WriteString("proxy-groups:\n")
 	// 全局策略 (照 Open-Box: 总开关在自动/手动/直连之间切)
@@ -692,8 +701,7 @@ func run(opt *Options) error {
   - GEOIP,private,DIRECT,no-resolve
   - GEOSITE,category-ads-all,REJECT
   - GEOSITE,openai,AI
-  - GEOSITE,chatgpt,AI
-  - GEOSITE,claude,AI
+  - GEOSITE,anthropic,AI
   - GEOSITE,google-deepmind,AI
   - GEOSITE,youtube,YouTube
   - GEOSITE,tiktok,TikTok

@@ -2,7 +2,7 @@
 # 从源码构建 obpool 的 apk 安装包 (apk-tools 3.x, ImmortalWrt/OpenWrt 25.x)
 # 需要: Go (交叉编译) + apk-tools 的 apk.static (Alpine apk-tools-static 包里有)
 # 用法: ./build-apk.sh [目标架构, 默认 aarch64_cortex-a53]
-# 产物: obpool-1.0.4-r0.apk
+# 产物: obpool-1.0.6-r0.apk
 set -e
 cd "$(dirname "$0")"
 ARCH="${1:-aarch64_cortex-a53}"
@@ -78,7 +78,7 @@ chmod 755 "$SCRIPTS/post-upgrade"
 
 apk.static mkpkg \
     --info "name:obpool" \
-    --info "version:1.0.4-r0" \
+    --info "version:1.0.6-r0" \
     --info "arch:$ARCH" \
     --info "description:Cloudflare Worker node pool optimizer: aggregates subscriptions, crosses bestcf fronts, latency and bandwidth tests on-router, writes a weighted mihomo YAML pool nightly" \
     --info "license:MIT" \
@@ -87,7 +87,7 @@ apk.static mkpkg \
     --script "post-upgrade:$SCRIPTS/post-upgrade" \
     --script "pre-deinstall:$SCRIPTS/pre-deinstall" \
     --file "$ROOT" \
-    --output "obpool-1.0.4-r0.apk"
+    --output "obpool-1.0.6-r0.apk"
 rm -rf "$SCRIPTS"
-echo "完成: obpool-1.0.4-r0.apk (arch=$ARCH)"
-echo "安装: 传到路由器后 apk add --allow-untrusted obpool-1.0.4-r0.apk"
+echo "完成: obpool-1.0.6-r0.apk (arch=$ARCH)"
+echo "安装: 传到路由器后 apk add --allow-untrusted obpool-1.0.6-r0.apk"
