@@ -1,0 +1,14 @@
+# 真实订阅与运行产物不要提交
+subs.txt
+pool.yaml
+pool-proxies.yaml
+pool.txt
+pool-singbox.json
+report.txt
+history.jsonl
+run.log
+tmp/
+obpool-arm64
+obpool-amd64
+obpool-bin
+*.ipk
