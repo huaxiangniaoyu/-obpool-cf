@@ -49,6 +49,12 @@ apk add --allow-untrusted obpool-1.0.4-r0.apk
 `/opt/open-box/pool/subs.txt`, 再手工跑一次 `/opt/open-box/pool/run.sh` 即可。
 卸载 `apk del obpool` 会自动摘掉定时任务。
 
+订阅服务: 安装后路由器会起一个只读订阅服务 (独立 uhttpd 实例, 8088 端口,
+只挂 pool.yaml / pool-proxies.yaml, 不含订阅源文件), 每晚跑完自动更新:
+局域网 `http://192.168.8.1:8088/pool.yaml`、Tailscale
+`http://<路由器tailnet IP>:8088/pool.yaml`。把链接填进 OpenClash / mihomo
+的订阅处即可每晚自动拉到最新优选池。
+
 包的架构标记是 `aarch64_cortex-a53` (mediatek/filogic); 其他 ARM64 目标
 改一下构建脚本的 ARCH 变量重打即可。自己打包: `./build-apk.sh`
 (需要 Go + apk-tools 的 apk.static)。
