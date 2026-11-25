@@ -35,22 +35,7 @@
 
 ## 部署 (OpenWrt / ImmortalWrt, aarch64)
 
-### 方式一: ipk 安装包 (推荐)
-
-Releases 里有打好的 `obpool_1.0.0_aarch64_generic.ipk`, 传到路由器后:
-
-```sh
-opkg install obpool_1.0.0_aarch64_generic.ipk
-```
-
-安装会自动: 把程序放进 `/opt/open-box/pool/`、从示例生成 `subs.txt`
-(升级不覆盖)、注册每晚 20:40 的定时任务。装完把你的订阅填进
-`/opt/open-box/pool/subs.txt`, 再手工跑一次 `/opt/open-box/pool/run.sh` 即可。
-卸载 `opkg remove obpool` 会自动摘掉定时任务。
-
-自己打 ipk: `./build-ipk.sh` (需要 Go 环境交叉编译)。
-
-### 方式二: 手工放文件
+ 手工放文件
 
 ```sh
 # 1. 把二进制和订阅文件放到路由器
